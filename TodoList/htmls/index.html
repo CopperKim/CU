@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+    <div>
+        <button id="addItemButton">addNote</button>
+    </div>    
+    <div>
+        <input type="text" id="DueDateInput" placeholder="due date"> 
+        <input type="text" id="ContentInput" placeholder="work to do"> 
+    </div>
+    <ol id="TodoList">
+        <h1>Work-To-Do</h1>
+    </ol>
+
+    <script>
+        const addItemButton = document.getElementById('addItemButton')
+        const DueDateInput = document.getElementById('DueDateInput')
+        const ContentInput = document.getElementById('ContentInput')
+        const TodoList = document.getElementById('TodoList')
+
+        async function setList() {
+            await fetch("/api/task/request")
+            .then(response => response.json()) 
+            .then(response => {
+                DBitemList = response.data
+                try{
+                    DBitemList.forEach(item => {
+                        // console.log(item)
+                        const listItem = document.createElement("li")
+                        const content = document.createElement("h3")
+                        content.textContent = item.task
+                        const dueDate = document.createElement("p")
+                        dueDate.textContent = item.duedate
+                        const button = document.createElement("button")
+                        button.textContent = "delete this note"
+                        button.onclick = async () => {
+                            try{
+                                const response = await fetch("/api/task/"+item._id,{
+                                method : "DELETE",
+                                headers: {"Content-Type": "application/json"}
+                                })
+                                const result = await response.json();
+                                if (response.ok) {
+                                    console.log("Task deleted:", result);
+                                } 
+                                else {
+                                    console.error("Failed to delete task:", result.message);
+                                }
+                            }catch(error) {
+                                console.error("Error : " + error)
+                            }
+                        }
+                        listItem.appendChild(content)
+                        listItem.appendChild(dueDate)
+                        listItem.appendChild(button)
+                        TodoList.appendChild(listItem)
+                    })
+                }catch(error){
+                    console.error("Fetching Error : " + error)
+                }
+            })
+            .catch(error => console.log("DB request Error : " + error))
+        }
+
+        setList()
+        
+        function addItem() {
+            console.log(ContentInput.value, DueDateInput.value)
+            fetch("", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({task: ContentInput.value, duedate: DueDateInput.value })
+            })
+            .then(response => response.json())
+            .then(data => 
+                console.log("Response : " + data)
+            ).catch(error => console.log("Error : " + error));
+        };
+        addItemButton.addEventListener('click', addItem);
+    </script>
+    
+</body>
+</html>
