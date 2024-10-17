@@ -26,28 +26,21 @@ int main() {
         X = X-time;
         for(int i=0;i<X;i++) {
             switch(dir) {
-                case 0 : for(int j=0;j<X;j++) {
-                    snake.push_back({snake.back()[0], snake.back()[1]-1});
-                }
-                case 1 : for(int j=0;j<X;j++) {
-                    snake.push_back({snake.back()[0]+1, snake.back()[1]});
-                }
-                case 2 : for(int j=0;j<X;j++) {
-                    snake.push_back({snake.back()[0], snake.back()[1]+1});
-                }
-                case 3 : for(int j=0;j<X;j++) {
-                    snake.push_back({snake.back()[0]-1, snake.back()[1]});
-                }
+                case 0 : snake.push_back({snake.back()[0], snake.back()[1]-1});
+                case 1 : snake.push_back({snake.back()[0]+1, snake.back()[1]});
+                case 2 : snake.push_back({snake.back()[0], snake.back()[1]+1});
+                case 3 : snake.push_back({snake.back()[0]-1, snake.back()[1]});
             }
             bool bak = false;
-            if (1>snake.back()[0] || snake.back()[0] > N-1 || 1>snake.back()[1] || snake.back()[1] < N-1 ) bak = true;
-            for(int j=0;j<snake.size();j++) {
+            if (1>snake.back()[0] || snake.back()[0] > N || 1 > snake.back()[1] || snake.back()[1] > N ) bak = true;
+            for(int j=0;j<snake.size()-1;j++) {
                 if (snake.back() == snake[j]) bak = true;
             }
+            ++time;
             if (bak) {
-                ::cout << time;
+                ::cout << 'a' << time;
                 return 0;
-            }   
+            }
             if (!apple[snake.back()[0]][snake.back()[1]]) snake.pop_front();
         }
         if (C == 'D') dir = (dir + 1) % 4;
