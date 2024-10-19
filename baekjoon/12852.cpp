@@ -6,37 +6,48 @@
 using namespace std;
 
 int main() {
-    int N; cin >> N;
-    int visited[1000007];
+    int N, M; cin >> N;
+    if (N==1) {
+        cout << 0 << '\n' << 1;
+        return 0;
+    }
+    M=N;
+    int* visited = (int*)calloc(N+3, sizeof(int));
     visited[N] == -1;
 
     queue<int> Q;
     Q.push(N);
 
     while(visited[1] == 0) {
-        N = Q.front();
+        M = Q.front();
         Q.pop();
-        if( N % 3 == 0 ) {
-            Q.push(N/3);
-            visited[N/3] = N;
+        if( M % 3 == 0 && visited[M/3] == 0 ) {
+            // cout << M/3 << ' ';
+            Q.push(M/3);
+            visited[M/3] = M;
         }
-        if( N % 2 == 0 ) {
-            Q.push(N/2) = N;
-            visited[N/2] = N;
+        if( M % 2 == 0 && visited[M/2] == 0 ) {
+            // cout << M/2 << ' ';
+            Q.push(M/2);
+            visited[M/2] = M;
         }
-        Q.push(N-1);
-        visited[N-1] = N;
+        if (visited[M-1] == 0) {
+            // cout << M-1 << ' ';
+            Q.push(M-1);
+            visited[M-1] = M;
+        }
     }
     
     vector<int> result;
 
     int idx=1;
-    while(visited[idx] != -1) {
+    while(idx != N) {
         result.push_back(idx);
         idx = visited[idx];
     }
 
     cout << result.size() << '\n';
+    cout << N << ' ';
     for(int i=result.size()-1;i>=0;i--) {
         cout << result[i] << ' ';
     }
