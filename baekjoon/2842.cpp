@@ -13,52 +13,33 @@ bool house[53][53]={};
 vector<int> post;
 vector<int> height;
 
-int min_reachable(int idx) {
+bool reachable(int min_idx, int max_idx) {
     queue<vector<int>> Q;
     Q.push(post);
     int visited_house=0;
     bool visited[53][53]={};
     vector<int> curPos;
+    visited[post[0]][post[1]] = true;
     while(!Q.empty()) {
         curPos=Q.front();
         Q.pop();
         if (house[curPos[0]][curPos[1]]) visited_house++;
+        if (visited_house == house_count) {
+            return true;
+        }
         for(int t=-1;t<=1;t++) {
             for(int y=-1;y<=1;y++) {
-                if (t == 0 && y == 0) ;
-                else if (map[curPos[0]+t][curPos[1]+y] >= height[idx] && !visited[curPos[0]+t][curPos[1]+y]) {
+                if ((t != 0 || y != 0) && height[min_idx] <= map[curPos[0]+t][curPos[1]+y] && map[curPos[0]+t][curPos[1]+y] <= height[max_idx] && !visited[curPos[0]+t][curPos[1]+y]) {
                     visited[curPos[0]+t][curPos[1]+y] = true;
-                    cout << curPos[0]+t << ' ' << curPos[1]+y << '\n';
                     Q.push({curPos[0]+t, curPos[1]+y});
                 }
             }
         }
     }
-    return visited_house;
-}
-
-int max_reachable(int idx) {
-    queue<vector<int>> Q;
-    Q.push(post);
-    int visited_house=0;
-    bool visited[53][53]={};
-    vector<int> curPos;
-    while(!Q.empty()) {
-        curPos=Q.front();
-        Q.pop();
-        if (house[curPos[0]][curPos[1]]) visited_house++;
-        for(int t=-1;t<=1;t++) {
-            for(int y=-1;y<=1;y++) {
-                if (t == 0 && y == 0);
-                else if (0< map[curPos[0]+t][curPos[1]+y] && map[curPos[0]+t][curPos[1]+y] <= height[idx] && !visited[curPos[0]+t][curPos[1]+y]) {
-                    visited[curPos[0]+t][curPos[1]+y] = true;
-                    cout << curPos[0]+t << ' ' << curPos[1]+y << '\n';
-                    Q.push({curPos[0]+t, curPos[1]+y});
-                }
-            }
-        }
+    if (visited_house == house_count) {
+        return true;
     }
-    return visited_house;   
+    return false;
 }
 
 int main() {
@@ -86,30 +67,18 @@ int main() {
 
     sort(height.begin(), height.end());
     height.erase(unique(height.begin(),height.end()), height.end());
+    for(pheight_idx=0;height[pheight_idx]!=map[post[0]][post[1]];pheight_idx++);
 
-    // for(int i=0;i<height.size();i++) cout << height[i] << ' ';
+    int min_idx=0, max_idx=pheight_idx;
+    int min_piro = height.back();
 
-    // for(int i=1;i<=N;i++) {
-    //     for(int j=1;j<=N;j++) {
-    //         cout << house[i][j] << ' ';
-    //     }
-    //     cout << '\n';
-    // }
-    // cout << house_count;
-
-    cout << post[0] << ' ' << post[1] << "\n\n";
-
-    // for(pheight_idx=0;height[pheight_idx]!=map[post[0]][post[1]];pheight_idx++);
-
-    // cout << pheight_idx;
-
-    int min_idx, max_idx;
-
-    for(int min_idx=pheight_idx;min_reachable(min_idx)!=house_count;min_idx--) cout << 'b';
-    cout << "asdg\n";
-    for(int max_idx=pheight_idx;max_reachable(max_idx)!=house_count;max_idx++) cout << 'a';
-
-    cout << height[max_idx]-height[min_idx];
-
-    return 0;
+    while(min_idx <= pheight_idx) {
+        if(reachable(min_idx, max_idx)) {
+            min_piro = min(min_piro, height[max_idx]-height[min_idx]); 
+            min_idx++; 
+        }
+        else if (max_idx<height.size()) {max_idx++;}
+        else break;
+    }
+    cout << min_piro;
 }
