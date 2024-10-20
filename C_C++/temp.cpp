@@ -3,12 +3,22 @@
 
 using namespace std;
 
-int main () {
-    vector<int> a;
-    a.push_back(1);
-    a.push_back(2);
-    a.push_back(3);
-    a.push_back(4);
+class Point {
+public : 
+    int x, y;
+    Point(int k, int l) {x = k; y = l;}
+};
 
-    for(int i=0;i<a.size();i++) cout << a[i] << ' ';
+Point addPoint(Point a, Point b) {
+    return Point(a.x+b.x, a.y+b.y);
+}
+
+int main() {
+    Point a(0, 0);
+    Point b(0, 0);
+    cin >> a.x >> a.y;
+    cin >> b.x >> b.y;
+
+    Point res = addPoint(a, b);
+    cout << res.x << res.y;
 }
