@@ -1,29 +1,24 @@
 #include <iostream>
-#include <string>
 #include <vector>
 
 using namespace std;
 
-int main () {
-    int j=0, len, index = 1; cin >> len;
-    vector<vector<char>> nums;
-    string input; cin >> input;
+class Point {
+public : 
+    int x, y;
+    Point(int k, int l) {x = k; y = l;}
+};
 
-    for(j=0;j<len;j++) {
-        vector<char> addnum;
-        while(input[index] != ',' && input[index] != ']') {
-            addnum.push_back(input[index]);
-            index++;
-        }
-        nums.push_back(addnum);
-        index++;
-    }
-    
-    for(j=0;j<len;j++) {
-        for(char ch : nums[j]) {
-            cout << ch << ' ';
-        }
-    }
+Point addPoint(Point a, Point b) {
+    return Point(a.x+b.x, a.y+b.y);
+}
 
-    return 0;
+int main() {
+    Point a(0, 0);
+    Point b(0, 0);
+    cin >> a.x >> a.y;
+    cin >> b.x >> b.y;
+
+    Point res = addPoint(a, b);
+    cout << res.x << res.y;
 }
