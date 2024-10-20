@@ -11,7 +11,6 @@ int main() {
     cin >> N;
     cin >> K;
     bool apple[105][105] = {};
-    cout << int(apple[0][0]);
     deque<vector<int>> snake;
     snake.push_back({1, 1});
     for(int i=0;i<K;i++) {
@@ -27,10 +26,10 @@ int main() {
         X = X-time;
         for(int i=0;i<X;i++) {
             switch(dir) {
-                case 0 : {snake.push_back({snake.back()[0], snake.back()[1]-1}); break;}
-                case 1 : {snake.push_back({snake.back()[0]+1, snake.back()[1]}); break;}
-                case 2 : {snake.push_back({snake.back()[0], snake.back()[1]+1}); break;}
-                case 3 : {snake.push_back({snake.back()[0]-1, snake.back()[1]}); break;}
+                case 0 : {snake.push_back({snake.back()[0]-1, snake.back()[1]}); break;}
+                case 1 : {snake.push_back({snake.back()[0], snake.back()[1]+1}); break;}
+                case 2 : {snake.push_back({snake.back()[0]+1, snake.back()[1]}); break;}
+                case 3 : {snake.push_back({snake.back()[0], snake.back()[1]-1}); break;}
             }
             bool bak = false;
             if (1>snake.back()[0] || snake.back()[0] > N || 1 > snake.back()[1] || snake.back()[1] > N ) bak = true;
@@ -39,34 +38,39 @@ int main() {
             }
             ++time;
             if (bak) {
-                ::cout << 'a' << time;
+                ::cout << time;
                 return 0;
             }
-            if (!apple[snake.back()[0]][snake.back()[1]]) {snake.pop_front(); apple[snake.back()[0]][snake.back()[1]]=false;}
-            cout << snake.back()[0] << ' ' << snake.back()[1] << ' ';
-            cout << snake.front()[0] << ' ' << snake.front()[1] << '\n';
+            if (!apple[snake.back()[0]][snake.back()[1]]) snake.pop_front(); 
+            else apple[snake.back()[0]][snake.back()[1]]=false;
+            // ::cout << snake.back()[0] << ' ' << snake.back()[1] << ' ';
+            // ::cout << snake.front()[0] << ' ' << snake.front()[1] << '\n';
         }
         if (C == 'D') dir = (dir + 1) % 4;
-        else dir = (dir - 1) % 4;
+        else if (C == 'L') dir = (dir + 3) % 4;
+        // cout << dir;
     }
-    return 1;
     for(int i=0;i<N;i++) {
         switch(dir) {
-            case 0 : {snake.push_back({snake.back()[0], snake.back()[1]-1}); break;}
-            case 1 : {snake.push_back({snake.back()[0]+1, snake.back()[1]}); break;}
-            case 2 : {snake.push_back({snake.back()[0], snake.back()[1]+1}); break;}
-            case 3 : {snake.push_back({snake.back()[0]-1, snake.back()[1]}); break;}
+            case 0 : {snake.push_back({snake.back()[0]-1, snake.back()[1]}); break;}
+            case 1 : {snake.push_back({snake.back()[0], snake.back()[1]+1}); break;}
+            case 2 : {snake.push_back({snake.back()[0]+1, snake.back()[1]}); break;}
+            case 3 : {snake.push_back({snake.back()[0], snake.back()[1]-1}); break;}
         }
         bool bak = false;
         if (1>snake.back()[0] || snake.back()[0] > N || 1 > snake.back()[1] || snake.back()[1] > N ) bak = true;
         for(int j=0;j<snake.size()-1;j++) {
-            if (snake.back() == snake[j]) bak = true;
+            if (snake.back() == snake.at(j)) {cout << 'c'; bak = true;}
         }
         ++time;
         if (bak) {
-            ::cout << 'a' << time;
-            return 0;
+            break;
         }
-        if (!apple[snake.back()[0]][snake.back()[1]]) {snake.pop_front(); apple[snake.back()[0]][snake.back()[1]]=false;}
+        if (!apple[snake.back()[0]][snake.back()[1]]) snake.pop_front(); 
+        else apple[snake.back()[0]][snake.back()[1]]=false;
+        // ::cout << snake.back()[0] << ' ' << snake.back()[1] << ' ';
+        // ::cout << snake.front()[0] << ' ' << snake.front()[1] << '\n';
     }
+    cout << time;
+    return 0;
 }
