@@ -20,7 +20,7 @@ for fileName in files :
         old_file_path = os.path.join(folder_path, fileName)
         title = str(soup.find('title'))
         title = title.replace("번: ", '_')
-        new_file_name = (title)[len(fileName)-1:-8] + '.cpp'
+        new_file_name = (title)[7:-8] + '.cpp'
         new_file_path = os.path.join(folder_path, new_file_name)
         os.rename(old_file_path, new_file_path)
-        print(old_file_path, '\n', new_file_path)
+        # print(old_file_path, '\n', new_file_path)
