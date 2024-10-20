@@ -1,13 +1,14 @@
 #include <iostream>
-#include <queue>
+#include <vector>
 
 using namespace std;
 
 int main () {
-    queue<int> Q;
-    Q.push(1);
-    Q.push(2);
-    Q.push(3);
-    Q.push(4);
-    cout << Q.front() << Q.back();
+    vector<int> a;
+    a.push_back(1);
+    a.push_back(2);
+    a.push_back(3);
+    a.push_back(4);
+
+    for(int i=0;i<a.size();i++) cout << a[i] << ' ';
 }

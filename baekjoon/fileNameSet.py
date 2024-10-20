@@ -18,6 +18,9 @@ for fileName in files :
         soup = BeautifulSoup(data.text, 'html.parser')
 
         old_file_path = os.path.join(folder_path, fileName)
-        new_file_name = (str(soup.find('title')))[len(fileName)-1:]
+        title = str(soup.find('title'))
+        title = title.replace("번: ", '_')
+        new_file_name = (title)[len(fileName)-1:-8] + '.cpp'
         new_file_path = os.path.join(folder_path, new_file_name)
         os.rename(old_file_path, new_file_path)
+        print(old_file_path, '\n', new_file_path)
