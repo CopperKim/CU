@@ -10,10 +10,11 @@ int n, counts = 0;
 int *list, *nums;
 bool curPass = false;
 bool visited[53]={};
+vector<int> primes;
 
 bool isPrime(int n) {
-    for(int i=2;i*i<=n;i++) {
-        if (n%i == 0) return false;
+    for(int i=0;primes[i]*primes[i]<=n;i++) {
+        if (n%primes[i] == 0) return false;
     }
     return true;
 }
@@ -42,11 +43,10 @@ void backtrack() {
         return;
     }
     int minNotVisted;
-    for(minNotVisted=1;list[minNotVisted]!=0;minNotVisted++);
+    for(minNotVisted=2;list[minNotVisted]!=0;minNotVisted++);
 
     for(int i=minNotVisted+1;i<=n;i++) {
-        if(list[i] != 0 || !isPrime(nums[i]+nums[minNotVisted])) continue;
-        else {
+        if(list[i] == 0 && isPrime(nums[i]+nums[minNotVisted])) {
             link(minNotVisted, i);
             backtrack();
             unlink(minNotVisted, i);
@@ -58,23 +58,24 @@ int main() {
     cin >> n;
     list = (int*)calloc(n+3, sizeof(int));
     nums = (int*)calloc(n+3, sizeof(int));
+    primes.push_back(2);
     for(int i=1;i<=n;i++) {
         cin >> nums[i];
     }
+    for(int i=3;i<=48;i++) {
+        if (isPrime(i)) {
+            primes.push_back(i);
+            // cout << i << ' ';
+        }
+    }
 
     for(int i=2;i<=n;i++) {
-        link(1, i);
-        if (!isPrime(nums[1]+nums[list[1]])) {
+        if (isPrime(nums[1]+nums[list[1]])) {
+            curPass = false;
+            link(1, i); 
+            backtrack();
             unlink(1, i);
-            continue;
         }
-        curPass = false;
-        backtrack();
-        if(counts == n/2) {
-            unlink(1, i);
-            continue;
-        }
-        unlink(1, i);
     }
     
     vector<int> res;
