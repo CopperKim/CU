@@ -1,26 +1,35 @@
 // https://www.acmicpc.net/problem/6549
 
 #include <iostream>
+#include <stack>
+#include <utility>
 
 using namespace std;
 
-int n;
-long long h[100006];
-
-long long daq(int start, int end) {
-    if (start == end) return h[start];
-    int minidx=start;
-    for(int i = start;i<=end;i++) if(h[i]<h[minidx]) minidx=i;
-    if (minidx == start) return max(h[minidx]*(end-start+1), daq(minidx+1, end));
-    if (minidx == end) return max(h[minidx]*(end-start+1), daq(start, minidx-1));
-    return max(max(daq(start, minidx-1), daq(minidx+1, end)), h[minidx]*(end-start+1));
-}
-
 int main() {
     while(1) {
-        cin >> n;
+        int n; cin >> n;
         if (n==0) return 0;
-        for(int i=0;i<n;i++) cin >> h[i];
-        cout << daq(0, n-1);
+        long long maxValue=0;
+        stack<pair<int, long long>> s;
+        for(int i=0;i<n;i++) {
+            long long input; cin >> input;
+            int minidx = i;
+            if (!s.empty()) {
+                while(!s.empty() && s.top().second >= input) {
+                    maxValue = max(maxValue, s.top().second*(i-s.top().first));
+                    minidx = s.top().first;
+                    s.pop();
+                }
+            }
+            s.push({minidx, input});
+        }
+        if (!s.empty()) {
+            while(!s.empty()) {
+                maxValue = max(maxValue, s.top().second*(n-s.top().first));
+                    s.pop();
+                }
+            }
+        cout << maxValue << '\n';
     }
 }
