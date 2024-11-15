@@ -24,6 +24,7 @@ int main() {
 
     for(int x=1;x<=n;x++) {
         for(int y=1;y<=m;y++) {
+            if (isSqr(map[x][y])) maxnum = max(maxnum, map[x][y]);
             for(int dx=-x+1;dx<=n-x;dx++) {
                 for(int dy=-y+1;dy<=m-y;dy++) {
                     if (dx == 0 && dy == 0) continue;
