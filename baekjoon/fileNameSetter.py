@@ -18,11 +18,21 @@ for fileName in files :
         soup = BeautifulSoup(data.text, 'html.parser')
 
         old_file_path = os.path.join(folder_path, fileName)
+
         title = str(soup.find('title'))
+
         title = title.replace("번: ", '_')
+
         new_file_name = ((title)[7:-8] + '.cpp').replace(' ', '_')
+
+        if any(c in new_file_name for c in '\\/:*?"<>|'):
+            print(new_file_name)
+            print("문자열에 금지된 문자가 포함되어 있습니다.")
+            continue
+
         if new_file_name != fileName:
             print(f"Renamed '{fileName}' to '{new_file_name}'")
+            
         new_file_path = os.path.join(folder_path, new_file_name)
         os.rename(old_file_path, new_file_path)
         # print(old_file_path, '\n', new_file_path)
