@@ -7,10 +7,16 @@ int main() {
     char board[51][51];
     int a[51][51]={};
     for(int i=1;i<=n;i++) cin >> &board[i][1];
+    // for(int i=1;i<=n;i++) {
+    //     for(int j=1;j<=m;j++) {
+    //         cout << board[i][j] << ' ';
+    //     }
+    //     cout << '\n';
+    // }
     for(int i=1;i<=n;i++) {
         for(int j=1;j<=m;j++) {
             a[i][j] = a[i-1][j]+a[i][j-1]-a[i-1][j-1];
-            if ((board[i][j] == 'B' && (i+j)%2==0) || (board[i][j] == 'W' && (i+j)%2==1)) a[i][j] += 1; 
+            if ((board[i][j] == 'W' && (i+j)%2==0) || (board[i][j] == 'B' && (i+j)%2==1)) a[i][j] += 1; 
             // cout << a[i][j] << ' ';
         }
         // cout << '\n';
@@ -24,5 +30,5 @@ int main() {
         }
     }
     // cout << minVal << maxVal << '\n';
-    cout << min(minVal, n*m-maxVal);
+    cout << min(minVal, 64-maxVal);
 }
