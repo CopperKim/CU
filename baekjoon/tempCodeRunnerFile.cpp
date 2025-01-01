@@ -1,28 +1,35 @@
+// https://www.acmicpc.net/problem/2166
+
 #include <iostream>
 
 using namespace std;
 
+class Point {
+public :
+    long double x, y; 
+};
+
 int main() {
-    int n, m; cin >> n >> m;
-    char board[51][51];
-    int a[51][51]={};
-    for(int i=1;i<=n;i++) cin >> &board[i][1];
-    for(int i=1;i<=n;i++) {
-        for(int j=1;j<=m;j++) {
-            a[i][j] = a[i-1][j]+a[i][j-1]-a[i-1][j-1];
-            if ((board[i][j] == 'B' && (i+j)%2==0) || (board[i][j] == 'W' && (i+j)%2==1)) a[i][j] += 1; 
-            // cout << a[i][j] << ' ';
-        }
-        // cout << '\n';
+    ios :: sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    int n; scanf("%d", &n);
+    Point *points = (Point*)calloc(n+1, sizeof(Point));
+    long double area=0;
+    for(int i=0;i<n;i++) {
+        cin >> points[i].x >> points[i].y;
     }
+    points[n].x = points[0].x;
+    points[n].y = points[0].y;
     
-    int minVal=n*m, maxVal = 0;
-    for(int i=8;i<=n;i++) {
-        for(int j=8;j<=m;j++) {
-            maxVal = max(maxVal, a[i][j] - a[i-8][j] - a[i][j-8] +a[i-8][j-8]);
-            minVal = min(minVal, a[i][j] - a[i-8][j] - a[i][j-8] +a[i-8][j-8]);
-        }
+    for(int i=0;i<n;i++) {
+        // cout << (double)(points[i].x*points[i+1].y - points[i].y*points[i+1].x)/2 << '\n'; 
+        area += (points[i].x*points[i+1].y - points[i].y*points[i+1].x)/2;
     }
-    // cout << minVal << maxVal << '\n';
-    cout << min(minVal, n*m-maxVal);
+    if (area<0) area = -area;
+    
+    cout << fixed;
+	cout.precision(1);
+	cout << area << endl;
 }
