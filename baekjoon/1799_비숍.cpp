@@ -1,42 +1,40 @@
 #include <iostream>
+#include <cmath>
 #include <vector>
 #include <utility>
 
 using namespace std;
 
-int n, res=0; 
-vector<int> selectedPosIdx;
-vector<pair<int, int>> V;
+int n; 
+int res[2], map[11][11];
+bool l[20], r[20];
 
-bool testSelectedPos() {
-    for(int i=0;i<selectedPosIdx.size()-1;i++) {
-        for(int j=i+1;j<selectedPosIdx.size();j++) {
-            if (abs(V[i].first-V[j].first) == abs(V[i].second-V[j].second)) return false;
-        }
+void tracking(int row, int col, int count, int color) {
+    if (col >= n) {
+        row++;
+        if (col % 2 == 0) col = 1;
+        else col = 0;
     }
-    return true;
-}
-
-void BackTrack(int startIdx) {
-    for(int i=startIdx;i<V.size();i++) {
-        selectedPosIdx.push_back(i);
-        if (testSelectedPos()) BackTrack(i+1);
-        selectedPosIdx.pop_back();
+    if (row >= n) {
+        res[color] = max(res[color], count);
+        return;
     }
-    for(auto a : selectedPosIdx) cout << a << ' ';
-    cout << '\n';
-    res = max(res, (int)(selectedPosIdx.size()));
+    if (map[row][col] && !l[row+col] && !r[n-1+row-col]) {
+        l[row+col] = r[n-1+row-col] = 1;
+        tracking(row, col+2, count+1, color);
+        l[row+col] = r[n-1+row-col] = 0;
+    }
+    tracking(row, col+2, count, color);
 }
 
 int main() {
     cin >> n;
-    for(int i=1;i<=n;i++) {
-        for(int j=1;j<=n;j++) {
-            int input; cin >> input;
-            if (input == 1) V.push_back({i, j});
-        }
+    for(int i=0;i<n;i++) for(int j=0;j<n;j++) {
+        cin >> map[i][j];
     }
 
-    BackTrack(0);
-    cout << res;
+    tracking(0, 0, 0, 0);
+    tracking(0, 1, 0, 1);
+
+    cout << res[0]+res[1];
 }
