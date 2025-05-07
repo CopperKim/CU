@@ -28,6 +28,8 @@ public class SinglyLinkedList <E> {
 
     public SinglyLinkedList() {}
 
+    public E First() { return head.element; }
+
     public void addFirst(E data) {
         head = new Node<>(data, head); 
         if (size == 0) tail = head; 
