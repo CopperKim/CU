@@ -1,4 +1,4 @@
-package data_structure.singly_linked_list;
+package data_structure.List.SinglyLinkedList;
 
 public class SinglyLinkedList <E> {
     

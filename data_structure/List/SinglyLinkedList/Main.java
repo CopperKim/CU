@@ -1,6 +1,6 @@
-package data_structure.singly_linked_list;
+package data_structure.List.SinglyLinkedList;
 
-import data_structure.singly_linked_list.SinglyLinkedList;
+import data_structure.List.SinglyLinkedList.SinglyLinkedList;
 
 public class Main {
     public static void main(String[] args) {
