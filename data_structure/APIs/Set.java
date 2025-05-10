@@ -1,12 +1,13 @@
 package data_structure.APIs;
 
-import data_structure.APIs.Collection; 
+// import data_structure.APIs.Collection; 
 
 public interface Set<E> {
 
-    public void addAll(Collection<E> coll);
+    public void add(E e); 
 
-    public void containsAll(Collection<E> coll); 
+    public void remove(E e); 
 
-    public boolean equals(Set<E> set); 
+    public boolean contains(E e); 
+
 }
