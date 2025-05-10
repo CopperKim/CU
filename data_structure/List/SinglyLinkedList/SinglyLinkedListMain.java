@@ -2,7 +2,7 @@ package data_structure.List.SinglyLinkedList;
 
 import data_structure.List.SinglyLinkedList.SinglyLinkedList;
 
-public class Main {
+public class SinglyLinkedListMain {
     public static void main(String[] args) {
         SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
         
@@ -19,5 +19,6 @@ public class Main {
         list.addLast(100);
         System.out.println(list);
 
+        for(Integer i : list) System.out.println(i);
     }
 }

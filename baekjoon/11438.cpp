@@ -8,15 +8,6 @@ int dp[1000001][16];
 int depth[1000001];
 int max_depth;
 
-int maxdigit(int n) {
-    int iter = 0;
-    while(n>1) {
-        n = n >> 1;
-        iter++;
-    }
-    return iter;
-}
-
 void DFS(int node, int before) {
     for(int i=0;i<G[node].size();i++) {
         int next = G[node][i];
@@ -32,9 +23,9 @@ int ascending(int node, int height) {
     for(int i=0;height > 0;i++) {
         if (height & 1) node = dp[node][i];
         height = height >> 1;
-        cout << node << ' ';
-        cout << height << ' ';
-        cout << i << '\n';
+        // cout << node << ' ';
+        // cout << height << ' ';
+        // cout << i << '\n';
     }
     return node;
 }
@@ -44,13 +35,20 @@ int LCA(int a, int b) {
     int diff = depth[a] - depth[b];
     a = ascending(a, diff); // depth[a] == depth[b];
 
-    int max = maxdigit(depth[a]);
-    while(max-- >= 0) {
-        if (dp[a][max] == dp[b][max])
+    if (a == b) return a;
+    for(int i=max_depth;i>=0;i--) {
+        if (dp[a][i] != 0 && dp[a][i] != dp[b][i]) {
+            a = dp[a][i];
+            b = dp[b][i];
+        }
     }
+    return dp[a][0];
 }
 
 int main() {
+    ios::sync_with_stdio(false);
+    cout.tie(NULL);
+    cin.tie(NULL);
     int N; cin >> N;
     G = vector<vector<int>>(N+1);
     
@@ -67,11 +65,11 @@ int main() {
         }
     }
 
-    for(int i=1;i<=N;i++) cout << "node " << i << ": " << dp[i][0] << ' ' << depth[i] << '\n';
+    // for(int i=1;i<=N;i++) cout << "node " << i << ": " << dp[i][0] << ' ' << depth[i] << '\n';
 
     int M; cin >> M;
 
-    for(int i=0;i<=M;i++) {
+    for(int i=0;i<M;i++) {
         int a, b; cin >> a >> b;
         cout << LCA(a, b) << '\n';
     }

@@ -1,4 +1,4 @@
-package data_structure.List;
+package data_structure.APIs;
 
 public interface List<E> {
     

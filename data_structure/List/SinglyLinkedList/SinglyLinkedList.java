@@ -1,6 +1,9 @@
 package data_structure.List.SinglyLinkedList;
 
-public class SinglyLinkedList <E> {
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class SinglyLinkedList <E> implements Iterable<E> {
     
     private static class Node <E> {
 
@@ -28,7 +31,7 @@ public class SinglyLinkedList <E> {
 
     public SinglyLinkedList() {}
 
-    public E First() { return head.element; }
+    public E first() { return head.element; }
 
     public void addFirst(E data) {
         head = new Node<>(data, head); 
@@ -57,6 +60,25 @@ public class SinglyLinkedList <E> {
     public boolean isEmpty() { return size==0 ; }
 
     public int size() { return size; }
+
+    public Iterator<E> iterator() { return new SLLiterator(); }
+
+    private class SLLiterator implements Iterator<E> {
+
+        private Node<E> cur = head; 
+
+        public boolean hasNext() { 
+            if (cur == null) return false;
+            else return true;
+        } 
+
+        public E next() { 
+            if (!hasNext()) throw new NoSuchElementException(); 
+            E data = cur.element;
+            cur = cur.next;
+            return data;
+        }
+    }
 
     public String toString() {
         String res = "";
