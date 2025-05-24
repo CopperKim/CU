@@ -1,0 +1,14 @@
+name: MinecraftPluginTutorial
+version: '1.0-SNAPSHOT'
+main: org.tutorial.minecraftplugintutorial.MinecraftPluginTutorial
+api-version: '1.21'
+commands:
+  cow:
+    description: "Spawn a exploding cow"
+    usage: "/cow [baby]"
+    aliases: [ cowcannon ]
+    permission: minecraftplugintutorial.command.cow
+    permission-message: "You do not have permission to spawn a exploding cow"
+permissions:
+  minecraftplugintutorial.command.cow:
+    default: false
