@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="auto_export_to_plugin_folder">
-    <output-path>$PROJECT_DIR$/../plugin_server/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../plugin_server/plugins</output-path>
     <root id="archive" name="auto_export_to_plugin_folder.jar">
       <element id="module-output" name="MinecraftPluginTutorial.main" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
