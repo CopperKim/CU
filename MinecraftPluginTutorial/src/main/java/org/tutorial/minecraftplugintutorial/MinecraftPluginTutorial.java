@@ -10,7 +10,6 @@ public final class MinecraftPluginTutorial extends JavaPlugin {
         getLogger().info("@ PluginTutorial enabled");
         getServer().getPluginManager().registerEvents(new CowCannonListener(), this);
         getServer().getPluginManager().registerEvents(new LazerWithBlazeRodListener(), this);
-        getServer().getPluginManager().registerEvents(new SphereParticles(), this);
         getCommand("cow").setExecutor(new CowCommand());
     }
 
