@@ -14,7 +14,7 @@ import org.bukkit.util.Vector;
 public class LazerWithBlazeRodListener implements Listener {
 
     @EventHandler
-    public void itemRightClicked(PlayerInteractEvent event) {
+    public void BlazeRodRightClicked(PlayerInteractEvent event) {
 
         Player player = (Player) event.getPlayer();
         World world = player.getWorld();
