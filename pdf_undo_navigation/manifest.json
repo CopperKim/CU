@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "PDF Undo Navigation",
+  "version": "1.0.0",
+  "description": "Undo internal PDF link jumps with Ctrl+Z.",
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": ["*://*/*.pdf*", "file://*/*.pdf*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.pdf*", "file://*/*.pdf*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "undo-pdf-nav": {
+      "suggested_key": {
+        "default": "Ctrl+Z",
+        "mac": "Command+Z"
+      },
+      "description": "Undo last in-PDF navigation"
+    }
+  }
+}
